@@ -63,3 +63,8 @@ dot add -u && dot commit -m "message" && dot push
 
 - [caelestia-dots/caelestia](https://github.com/caelestia-dots/caelestia) and [caelestia-dots/shell](https://github.com/caelestia-dots/shell): base configuration and shell
 - [CachyOS/cachyos-hypr-noctalia](https://github.com/CachyOS/cachyos-hypr-noctalia): modules in `config/`
+
+---
+<p align="center">
+<img src="https://raw.githubusercontent.com/Gowee/nyancat-svg/master/nyancat.svg" width="90" alt="Nyan Cat" />
+</p>
