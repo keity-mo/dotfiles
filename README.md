@@ -1,7 +1,7 @@
 
 # dotfiles · Hyprland + Caelestia on CachyOS
 
-[![GitHub Release](https://img.shields.io/github/v/release/keity-mo/dotfiles?style=flat-square&color=89b4fa)](https://github.com/keity-mo/dotfiles/releases/latest) [![License](https://img.shields.io/badge/license-MIT?style=flat-square&color=89b4fa)](LICENSE)
+[![GitHub Release](https://img.shields.io/github/v/release/keity-mo/dotfiles?style=flat-square&color=89b4fa)](https://github.com/keity-mo/dotfiles/releases/latest) [![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square?style=flat-square&color=89b4fa)](LICENSE)
 
 My desktop setup: Hyprland running the Caelestia shell, with Material You theming, blur and translucency, and animated wallpapers. Everything is written in Lua.
 
