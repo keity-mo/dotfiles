@@ -1,0 +1,73 @@
+{
+    "appearance": {
+        "transparency": {
+            "base": 0.45,
+            "enabled": true,
+            "layers": 0.22
+        }
+    },
+    "background": {
+        "desktopClock": {
+            "enabled": true,
+            "position": "top-right",
+            "scale": 1
+        },
+        "visualiser": {
+            "autoHide": false,
+            "enabled": true,
+            "rounding": 1,
+            "spacing": 1
+        },
+        "wallpaperEnabled": false
+    },
+    "bar": {
+        "activeWindow": {
+            "compact": true
+        },
+        "clock": {
+            "background": true,
+            "showDate": true
+        },
+        "statusIcons": [
+            {
+                "enabled": true,
+                "id": "lockStatus"
+            },
+            {
+                "enabled": true,
+                "id": "audio"
+            },
+            {
+                "enabled": true,
+                "id": "microphone"
+            },
+            {
+                "enabled": true,
+                "id": "kbLayout"
+            },
+            {
+                "enabled": true,
+                "id": "network"
+            },
+            {
+                "enabled": true,
+                "id": "bluetooth"
+            },
+            {
+                "enabled": true,
+                "id": "battery"
+            }
+        ],
+        "tray": {
+            "background": true,
+            "compact": true,
+            "recolour": true
+        },
+        "workspaces": {
+            "occupiedBg": false
+        }
+    },
+    "services": {
+        "dataUnits": "Decimal"
+    }
+}
