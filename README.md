@@ -1,7 +1,9 @@
+
 # dotfiles · Hyprland + Caelestia on CachyOS
 
 My desktop setup: Hyprland running the Caelestia shell, with Material You theming, blur and translucency, and an animated wallpaper. Everything is written in Lua.
 
+![Inicio](.config/hypr/docs/inicio.png)
 ![Desktop](.config/hypr/docs/desktop.jpg)
 
 ![Dashboard and launcher](.config/hypr/docs/dashboard.jpg)
