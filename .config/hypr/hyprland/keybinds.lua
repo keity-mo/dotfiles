@@ -225,3 +225,5 @@ create_bind(
         " -a 'Shell' -A 'Test1=I got it!' -A 'Test2=Another action'"
     )
 )
+
+hl.bind("SUPER + TAB", hl.dsp.exec_cmd("qs ipc -p /home/kei/.config/quickshell/overview call overview toggle"))

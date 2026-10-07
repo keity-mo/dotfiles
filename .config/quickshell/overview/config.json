@@ -1,0 +1,36 @@
+{
+  "appearance": {
+    "colorSource": "caelestia",
+    "caelestia": {
+      "autoRefresh": true,
+      "refreshInterval": 2000,
+      "accentProfile": "vibrant"
+    }
+  },
+  "overview": {
+    "showSpecialWorkspaces": true,
+    "specialWorkspaces": [
+      "sysmon",
+      "music",
+      "communication",
+      "todo"
+    ],
+    "effects": {
+      "enableBackdrop": false,
+      "enableBlur": true,
+      "glassMode": true,
+      "panelOpacity": 0.55,
+      "workspaceOpacity": 0.48,
+      "emptyWorkspaceWallpaperOverlayOpacity": 0.1,
+      "windowOverlayOpacity": 0.08,
+      "glassTintStrength": 0.55,
+      "glassBorderOpacity": 0.85,
+      "glassShineOpacity": 0.32
+    },
+    "previewMode": "event",
+    "includeInactiveMonitorPreviews": false
+  },
+  "hacks": {
+    "hyprlandEventDebounceMs": 80
+  }
+}

@@ -29,6 +29,7 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("caelestia shell -d")
     hl.exec_cmd("/home/kei/.local/bin/live-wallpaper.sh")
     hl.exec_cmd('sh -c "sleep 6; caelestia shell -k; caelestia shell -d"')
+    hl.exec_cmd('sh -c "sleep 8; qs -p /home/kei/.config/quickshell/overview -d"')
 end)
 
 -- Resizer listeners

@@ -246,3 +246,5 @@ hl.window_rule({ match = { class = "kitty" }, opacity = "1.0 1.0" })
 hl.window_rule({ match = { class = "kitty" }, suppress_event = "maximize" })
 
 hl.layer_rule({ match = { namespace = "mpvpaper" }, no_anim = true })
+
+hl.layer_rule({ match = { namespace = "quickshell:overview-blur" }, blur = true, ignore_alpha = 0 }) -- quickshell-overview glass
