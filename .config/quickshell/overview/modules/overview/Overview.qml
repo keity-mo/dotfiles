@@ -35,9 +35,9 @@ Scope {
             property real progress: showing ? 1 : 0
             Behavior on progress {
                 NumberAnimation {
-                    duration: root.showing ? Appearance.animation.elementMoveEnter.duration : Appearance.animation.elementMoveExit.duration
+                    duration: root.showing ? Appearance.animation.elementMoveEnter.duration : Math.round(Appearance.animation.elementMoveExit.duration * 1.6)
                     easing.type: Easing.BezierSpline
-                    easing.bezierCurve: root.showing ? Appearance.animationCurves.emphasizedDecel : Appearance.animationCurves.emphasizedAccel
+                    easing.bezierCurve: root.showing ? Appearance.animationCurves.emphasizedDecel : Appearance.animationCurves.expressiveEffects
                 }
             }
 

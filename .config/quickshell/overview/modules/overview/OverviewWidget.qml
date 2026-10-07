@@ -188,6 +188,12 @@ Item {
         return raw.length === 0 ? "Special" : (names[raw.toLowerCase()] ?? raw.replace(/[-_]+/g, " "));
     }
 
+    function specialIcon(name) {
+        const icons = ({ "sysmon": "terminal", "music": "music_note", "communication": "forum", "todo": "checklist" });
+        const raw = `${name ?? ""}`.trim().toLowerCase();
+        return icons[raw] ?? (raw.startsWith("stash") ? "inventory_2" : "");
+    }
+
     function nextSpecialName() {
         const taken = new Set(specialNames.map(n => n.toLowerCase()));
         if (!taken.has("stash"))
@@ -460,7 +466,9 @@ Item {
                     height: root.sTileH
                     radius: root.tileRadius
                     special: true
-                    label: root.specialLabel(modelData)
+                    label: root.specialIcon(modelData).length > 0 ? "" : root.specialLabel(modelData)
+                    icon: root.specialIcon(modelData)
+                    iconSize: Math.max(20, Math.round(root.sTileH * 0.26))
                     numberSize: Math.max(12, Math.round(root.sTileH * 0.2))
                     active: root.activeSpecial === modelData
                     wallpaper: root.specialWallpaper

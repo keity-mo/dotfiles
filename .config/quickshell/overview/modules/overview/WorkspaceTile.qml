@@ -100,9 +100,10 @@ Item {
         text: root.icon
         font.family: Appearance.font.family.material
         font.pixelSize: root.iconSize
-        color: Qt.alpha(Appearance.colors.colPrimary, root.dropHover ? 1 : 0.7)
+        color: (root.icon === "add" || root.dropHover) ? Qt.alpha(Appearance.colors.colPrimary, root.dropHover ? 1 : 0.7) : (root.active ? Qt.alpha(Appearance.colors.colPrimary, 0.9) : Qt.alpha(Appearance.m3colors.m3onSurface, 0.5))
         scale: root.dropHover ? 1.25 : 1
         Behavior on scale { NumberAnimation { duration: 160; easing.type: Easing.OutCubic } }
+        Behavior on color { ColorAnimation { duration: Appearance.animation.elementMoveFast.duration } }
     }
 
     Rectangle {
