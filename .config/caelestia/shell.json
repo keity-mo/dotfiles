@@ -1,16 +1,30 @@
 {
     "appearance": {
+        "font": {
+            "family": {
+                "clock": "AF_LovingDiary",
+                "sans": "AF_LovingDiary"
+            }
+        },
         "transparency": {
             "base": 0.45,
             "enabled": true,
-            "layers": 0.22
+            "layers": 0.18
         }
     },
     "background": {
         "desktopClock": {
+            "background": {
+                "blur": true,
+                "enabled": true,
+                "opacity": 0.15
+            },
             "enabled": true,
             "position": "top-right",
-            "scale": 1
+            "scale": 1,
+            "shadow": {
+                "enabled": false
+            }
         },
         "visualiser": {
             "autoHide": false,
@@ -18,7 +32,7 @@
             "rounding": 1,
             "spacing": 1
         },
-        "wallpaperEnabled": false
+        "wallpaperEnabled": true
     },
     "bar": {
         "activeWindow": {
@@ -42,7 +56,7 @@
                 "id": "microphone"
             },
             {
-                "enabled": true,
+                "enabled": false,
                 "id": "kbLayout"
             },
             {
@@ -60,14 +74,30 @@
         ],
         "tray": {
             "background": true,
-            "compact": true,
+            "compact": false,
             "recolour": true
         },
         "workspaces": {
             "occupiedBg": false
         }
     },
+    "general": {
+        "apps": {
+            "terminal": [
+                "kitty"
+            ]
+        }
+    },
     "services": {
-        "dataUnits": "Decimal"
+        "audioIncrement": 0.1,
+        "dataUnits": "Decimal",
+        "defaultPlayer": "Sonora",
+        "gpuType": "Auto",
+        "maxVolume": 1.05
+    },
+    "utilities": {
+        "toasts": {
+            "nowPlaying": true
+        }
     }
 }

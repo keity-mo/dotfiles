@@ -6,7 +6,7 @@ return {
     ------------------
 
     -- Apps
-    terminal                   = "foot",
+    terminal                   = "kitty",
     browser                    = "firefox",
     editor                     = "codium",
     fileExplorer               = "thunar",
@@ -24,7 +24,7 @@ return {
     blurSpecialWs              = false,
     blurPopups                 = true,
     blurInputMethods           = true,
-    blurSize                   = 8,
+    blurSize                   = 10,
     blurPasses                 = 2,
     blurXray                   = false,
 

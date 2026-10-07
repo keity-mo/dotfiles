@@ -78,6 +78,7 @@ tagged_rule(float_tag, {
     "wev",                                -- Input detector
     "org.gnome.FileRoller|file-roller",   -- Archive manager
     "blueman-manager",                    -- Bluetooth GUI
+    "it.mijorus.smile",                   -- Emoji picker
     "com.github.GradienceTeam.Gradience", -- GTK themer (deprecated)
     "feh|imv|swappy",                     -- Image viewers
     "org.quickshell",                     -- Quickshell
@@ -225,7 +226,12 @@ hl.layer_rule({ match = { namespace = "caelestia-(drawers|background)" }, animat
        ignore_alpha = 0.1,
        xray = true,
    })
-
+   hl.layer_rule({
+       match = { namespace = "^caelestia-background$" },
+       blur = true,
+       ignore_alpha = 0.1,
+       xray = true,
+   })
 -- Auto-asignación de apps por categoría
 local categorias = {
     { ws = "2", clases = { "firefox|zen.*|chromium|google-chrome|brave-browser|librewolf|vivaldi.*" } },
@@ -235,3 +241,8 @@ for _, c in ipairs(categorias) do
         hl.window_rule({ match = { class = clase }, workspace = c.ws })
     end
 end
+hl.window_rule({ match = { class = ".*" }, opacity = "0.95 0.9" })
+hl.window_rule({ match = { class = "kitty" }, opacity = "1.0 1.0" })
+hl.window_rule({ match = { class = "kitty" }, suppress_event = "maximize" })
+
+hl.layer_rule({ match = { namespace = "mpvpaper" }, no_anim = true })

@@ -15,7 +15,7 @@ hl.config({
             input_methods     = vars.blurInputMethods,
             size              = vars.blurSize,
             passes            = vars.blurPasses,
-            brightness = 0.8,
+            brightness = 0.75,
         },
 
         shadow = {
