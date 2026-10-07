@@ -172,7 +172,7 @@ Item {
         anchors.fill: parent
         radius: root.cornerRadius
         color: Qt.alpha(Appearance.colors.colPrimary, root.pressed ? 0.22 : root.hovered ? 0.12 : 0)
-        Behavior on color { ColorAnimation { duration: 120 } }
+        Behavior on color { ColorAnimation { duration: Appearance.animation.elementMoveFast.duration } }
     }
 
     // Icono: centrado si no hay captura, como insignia inferior si la hay
@@ -211,7 +211,7 @@ Item {
         border.color: root.hovered ? Appearance.colors.colPrimary
                     : root.isFocused ? Qt.alpha(Appearance.colors.colPrimary, 0.8)
                     : Qt.alpha(Appearance.m3colors.m3outline, 0.35)
-        Behavior on border.color { ColorAnimation { duration: 120 } }
+        Behavior on border.color { ColorAnimation { duration: Appearance.animation.elementMoveFast.duration } }
     }
 
     MouseArea {

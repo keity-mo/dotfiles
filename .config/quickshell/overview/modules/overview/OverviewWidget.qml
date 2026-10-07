@@ -184,7 +184,8 @@ Item {
 
     function specialLabel(name) {
         const raw = `${name ?? ""}`.trim();
-        return raw.length === 0 ? "Special" : raw.replace(/[-_]+/g, " ");
+        const names = ({ "sysmon": "terminal", "music": "música", "communication": "comunicación", "todo": "to-do" });
+        return raw.length === 0 ? "Special" : (names[raw.toLowerCase()] ?? raw.replace(/[-_]+/g, " "));
     }
 
     function nextSpecialName() {
@@ -389,7 +390,7 @@ Item {
 
                 Text {
                     anchors.verticalCenter: parent.verticalCenter
-                    text: "Special Workspaces"
+                    text: "Espacios de trabajo"
                     font.family: Appearance.font.family.title
                     font.pixelSize: Appearance.font.pixelSize.small
                     font.weight: Font.DemiBold

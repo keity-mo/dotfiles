@@ -32,7 +32,7 @@ Item {
              : root.active ? Qt.tint(Qt.alpha(root.baseColor, Appearance.tileAlpha), Qt.alpha(Appearance.colors.colPrimary, 0.16))
              : root.icon === "add" ? Qt.alpha(root.baseColor, root.hovered ? 0.48 : 0.22)
              : Qt.alpha(root.baseColor, Appearance.tileAlpha)
-        Behavior on color { ColorAnimation { duration: 150 } }
+        Behavior on color { ColorAnimation { duration: Appearance.animation.elementMoveFast.duration } }
     }
 
     Loader {
@@ -80,7 +80,7 @@ Item {
         anchors.fill: parent
         radius: root.radius
         color: root.active ? Qt.alpha(Appearance.colors.colPrimary, 0.06) : Qt.alpha(Appearance.m3colors.m3onSurface, root.hovered ? 0.06 : 0)
-        Behavior on color { ColorAnimation { duration: 120 } }
+        Behavior on color { ColorAnimation { duration: Appearance.animation.elementMoveFast.duration } }
     }
 
     Text {
@@ -90,8 +90,8 @@ Item {
         font.family: root.special ? Appearance.font.family.title : Appearance.font.family.expressive
         font.pixelSize: root.numberSize
         font.weight: Font.DemiBold
-        color: Qt.alpha(Appearance.m3colors.m3onSurface, root.active ? 0.34 : 0.14)
-        Behavior on color { ColorAnimation { duration: 150 } }
+        color: Qt.alpha(Appearance.m3colors.m3onSurface, root.special ? (root.active ? 0.70 : 0.42) : (root.active ? 0.40 : 0.20))
+        Behavior on color { ColorAnimation { duration: Appearance.animation.elementMoveFast.duration } }
     }
 
     Text {
@@ -106,15 +106,15 @@ Item {
     }
 
     Rectangle {
-        visible: root.special
+        visible: root.special && root.icon !== "add"
         z: 99
         width: 3
         height: parent.height * 0.42
         anchors.left: parent.left
         anchors.verticalCenter: parent.verticalCenter
         radius: 2
-        color: Qt.alpha(Appearance.colors.colPrimary, root.active ? 0.95 : 0.55)
-        Behavior on color { ColorAnimation { duration: 150 } }
+        color: Qt.alpha(Appearance.colors.colPrimary, root.active ? 0.95 : 0.35)
+        Behavior on color { ColorAnimation { duration: Appearance.animation.elementMoveFast.duration } }
     }
 
     Rectangle {
@@ -123,12 +123,12 @@ Item {
         radius: root.radius
         color: "transparent"
         antialiasing: true
-        border.width: root.dropHover || (root.special && root.active) ? 2 : 1
-        border.color: root.dropHover || (root.special && root.active) ? Appearance.colors.colPrimary
+        border.width: root.dropHover || root.active ? 2 : 1
+        border.color: root.dropHover || root.active ? Appearance.colors.colPrimary
                     : root.icon === "add" ? Qt.alpha(Appearance.colors.colPrimary, root.hovered ? 0.55 : 0.22)
                     : root.hovered ? Qt.alpha(Appearance.m3colors.m3outline, 0.65)
                     : Qt.alpha(Appearance.m3colors.m3outlineVariant, root.special ? 0.8 : 0.5)
-        Behavior on border.color { ColorAnimation { duration: 120 } }
+        Behavior on border.color { ColorAnimation { duration: Appearance.animation.elementMoveFast.duration } }
     }
 
     HoverHandler {
