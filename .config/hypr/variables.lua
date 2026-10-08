@@ -13,8 +13,8 @@ return {
     audioSettings              = "pwvucontrol",
 
     -- Touchpad
-    touchpadDisableTyping      = true,
-    touchpadScrollFactor       = 0.3,
+    touchpadDisableTyping      = false,
+    touchpadScrollFactor       = 0.55,
     gestureFingers             = 3,
     workspaceSwipeFingers      = 4,
     gestureFingersMore         = 4,
@@ -44,9 +44,9 @@ return {
     windowOpacity              = 0.95,
     windowRounding             = 15,
     windowRoundingPower        = 2,
-    windowBorderSize           = 1,
-    activeWindowBorderColour   = "rgba(" .. scheme.primary .. "e6)",
-    inactiveWindowBorderColour = "rgba(" .. scheme.onSurfaceVariant .. "11)",
+    windowBorderSize           = 2,
+    activeWindowBorderColour   = "rgba(" .. scheme.primary .. "cc)",
+    inactiveWindowBorderColour = "rgba(" .. scheme.onSurfaceVariant .. "33)",
 
     -- Misc
     volumeStep                 = 10,
@@ -69,6 +69,7 @@ return {
 
     -- Workspaces
     kbMoveWinToWsSpecial       = { "SUPER + ALT + S", "CTRL + SUPER + SHIFT + Up" },
+    kbMoveWinToStash           = "SUPER + ALT + A",
     kbMoveWinFromWsSpecial     = "CTRL + SUPER + SHIFT + Down",
     kbMoveWinToWsNext          = { "SUPER + ALT + mouse_down", "SUPER + ALT + Page_Down", "CTRL + SUPER + SHIFT + Right" },
     kbMoveWinToWsPrev          = { "SUPER + ALT + mouse_up", "SUPER + ALT + Page_Up", "CTRL + SUPER + SHIFT + Left" },
@@ -109,6 +110,8 @@ return {
     kbMusicWs                  = "SUPER + M",
     kbCommunicationWs          = "SUPER + D",
     kbTodoWs                   = "SUPER + R",
+    kbTerminalWs               = "SUPER + SHIFT + T",
+    kbStashWs                  = "SUPER + A",
 
     -- Apps
     kbTerminal                 = "SUPER + T",

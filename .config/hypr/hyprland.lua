@@ -74,3 +74,6 @@ require("hyprland.keybinds")
 -- User configs
 maybe_create(home .. "/.config/caelestia/hypr-user.lua")
 require("hypr-user")
+
+-- For Noctalia Color templates
+-- require("noctalia").apply_theme()

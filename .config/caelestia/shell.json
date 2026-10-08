@@ -1,103 +1,110 @@
 {
-    "appearance": {
-        "font": {
-            "family": {
-                "clock": "AF_LovingDiary",
-                "sans": "AF_LovingDiary"
-            }
-        },
-        "transparency": {
-            "base": 0.45,
-            "enabled": true,
-            "layers": 0.18
-        }
+  "appearance": {
+    "font": {
+      "family": {
+        "clock": "AF_LovingDiary",
+        "sans": "AF_LovingDiary"
+      }
     },
-    "background": {
-        "desktopClock": {
-            "background": {
-                "blur": true,
-                "enabled": true,
-                "opacity": 0.15
-            },
-            "enabled": true,
-            "position": "top-right",
-            "scale": 1,
-            "shadow": {
-                "enabled": false
-            }
-        },
-        "visualiser": {
-            "autoHide": false,
-            "enabled": true,
-            "rounding": 1,
-            "spacing": 1
-        },
-        "wallpaperEnabled": true
-    },
-    "bar": {
-        "activeWindow": {
-            "compact": true
-        },
-        "clock": {
-            "background": true,
-            "showDate": true
-        },
-        "statusIcons": [
-            {
-                "enabled": true,
-                "id": "lockStatus"
-            },
-            {
-                "enabled": true,
-                "id": "audio"
-            },
-            {
-                "enabled": true,
-                "id": "microphone"
-            },
-            {
-                "enabled": false,
-                "id": "kbLayout"
-            },
-            {
-                "enabled": true,
-                "id": "network"
-            },
-            {
-                "enabled": true,
-                "id": "bluetooth"
-            },
-            {
-                "enabled": true,
-                "id": "battery"
-            }
-        ],
-        "tray": {
-            "background": true,
-            "compact": false,
-            "recolour": true
-        },
-        "workspaces": {
-            "occupiedBg": false
-        }
-    },
-    "general": {
-        "apps": {
-            "terminal": [
-                "kitty"
-            ]
-        }
-    },
-    "services": {
-        "audioIncrement": 0.1,
-        "dataUnits": "Decimal",
-        "defaultPlayer": "Sonora",
-        "gpuType": "Auto",
-        "maxVolume": 1.05
-    },
-    "utilities": {
-        "toasts": {
-            "nowPlaying": true
-        }
+    "transparency": {
+      "base": 0.45,
+      "enabled": true,
+      "layers": 0.18
     }
+  },
+  "background": {
+    "desktopClock": {
+      "background": {
+        "blur": true,
+        "enabled": true,
+        "opacity": 0.15
+      },
+      "enabled": true,
+      "position": "top-right",
+      "scale": 1,
+      "shadow": {
+        "enabled": false
+      }
+    },
+    "visualiser": {
+      "autoHide": false,
+      "enabled": true,
+      "rounding": 1,
+      "spacing": 1
+    },
+    "wallpaperEnabled": true
+  },
+  "bar": {
+    "activeWindow": {
+      "compact": true
+    },
+    "clock": {
+      "background": true,
+      "showDate": true
+    },
+    "statusIcons": [
+      {
+        "enabled": true,
+        "id": "lockStatus"
+      },
+      {
+        "enabled": true,
+        "id": "audio"
+      },
+      {
+        "enabled": true,
+        "id": "microphone"
+      },
+      {
+        "enabled": false,
+        "id": "kbLayout"
+      },
+      {
+        "enabled": true,
+        "id": "network"
+      },
+      {
+        "enabled": true,
+        "id": "bluetooth"
+      },
+      {
+        "enabled": true,
+        "id": "battery"
+      }
+    ],
+    "tray": {
+      "background": true,
+      "compact": false,
+      "recolour": true
+    },
+    "workspaces": {
+      "occupiedBg": false
+    }
+  },
+  "general": {
+    "apps": {
+      "terminal": [
+        "kitty"
+      ]
+    }
+  },
+  "notifs": {
+    "fullscreen": "On",
+    "openExpanded": false
+  },
+  "services": {
+    "audioIncrement": 0.1,
+    "dataUnits": "Decimal",
+    "defaultPlayer": "Sonora",
+    "gpuType": "Auto",
+    "maxVolume": 1.05
+  },
+  "utilities": {
+    "toasts": {
+      "nowPlaying": false
+    }
+  },
+  "paths": {
+    "sessionGif": "/home/kei/.config/caelestia/session.gif"
+  }
 }
