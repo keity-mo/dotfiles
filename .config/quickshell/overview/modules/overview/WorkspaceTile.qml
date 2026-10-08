@@ -10,6 +10,7 @@ Item {
     property bool active: false
     property bool special: false
     property bool dropHover: false
+    property bool deletable: false
     property string wallpaper: ""
     property real radius: 10
     property real numberSize: 40
@@ -20,6 +21,7 @@ Item {
     signal clicked()
     signal dragEntered()
     signal dragExited()
+    signal deleteRequested()
 
     readonly property color baseColor: special ? Appearance.m3colors.m3surfaceContainerHigh : Appearance.m3colors.m3surfaceContainer
 
@@ -146,5 +148,40 @@ Item {
         anchors.fill: parent
         onEntered: root.dragEntered()
         onExited: root.dragExited()
+    }
+
+    Rectangle {
+        id: deleteButton
+        readonly property bool shown: root.deletable && root.hovered
+        z: 101
+        anchors.top: parent.top
+        anchors.right: parent.right
+        anchors.margins: 6
+        width: 22
+        height: 22
+        radius: 11
+        opacity: shown ? 1 : 0
+        scale: shown ? 1 : 0.7
+        visible: opacity > 0.01
+        color: deleteArea.containsMouse ? Appearance.colors.colError : Qt.alpha(Appearance.m3colors.m3surfaceContainerHigh, 0.92)
+        border.width: 1
+        border.color: deleteArea.containsMouse ? Qt.alpha(Appearance.colors.colError, 0.8) : Qt.alpha(Appearance.colors.colPrimary, 0.28)
+        Behavior on opacity { NumberAnimation { duration: Appearance.animation.elementMoveFast.duration } }
+        Behavior on scale { NumberAnimation { duration: Appearance.animation.elementMoveFast.duration; easing.type: Easing.OutCubic } }
+        Behavior on color { ColorAnimation { duration: Appearance.animation.elementMoveFast.duration } }
+        Text {
+            anchors.centerIn: parent
+            text: "delete"
+            font.family: Appearance.font.family.material
+            font.pixelSize: 14
+            color: deleteArea.containsMouse ? Appearance.colors.colOnError : Appearance.colors.colOnLayer0
+        }
+        MouseArea {
+            id: deleteArea
+            anchors.fill: parent
+            hoverEnabled: true
+            acceptedButtons: Qt.LeftButton
+            onClicked: root.deleteRequested()
+        }
     }
 }

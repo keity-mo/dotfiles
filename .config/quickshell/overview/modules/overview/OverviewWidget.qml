@@ -112,6 +112,8 @@ Item {
         };
         for (const c of (Config.options.overview.specialWorkspaces ?? []))
             push(c);
+        for (const e of (GlobalStates.extraSpecials ?? []))
+            push(e);
         const monName = monitor?.name ?? "";
         for (const ws of (HyprlandData.allWorkspaces ?? [])) {
             const n = `${ws?.name ?? ""}`;
@@ -129,6 +131,7 @@ Item {
         return out;
     }
     readonly property int specialSlotCols: Math.max(1, Math.min(Config.options.overview.specialWorkspaceColumns, 8))
+    readonly property bool specialsFull: specialNames.length >= specialSlotCols * 2
     readonly property int specialTileCount: Math.max(1, specialNames.length)
     readonly property real stripPad: 12
     readonly property real stripHeaderH: 22
@@ -182,6 +185,23 @@ Item {
         return n.startsWith("special:") ? n.slice(8) : "";
     }
 
+    function specialHasWindows(name) {
+        for (const addr in windowByAddress) {
+            if (specialNameOf(windowByAddress[addr]) === name)
+                return true;
+        }
+        return false;
+    }
+
+    function removeExtraSpecial(name) {
+        // Si es el special abierto, primero se pasa al anterior (o se vuelve a los normales)
+        if (navSpecial === name) {
+            const idx = specialNames.indexOf(name);
+            goSpecial(idx > 0 ? specialNames[idx - 1] : "");
+        }
+        GlobalStates.extraSpecials = GlobalStates.extraSpecials.filter(n => n !== name);
+    }
+
     function specialLabel(name) {
         const raw = `${name ?? ""}`.trim();
         const names = ({ "sysmon": "terminal", "music": "música", "communication": "comunicación", "todo": "to-do" });
@@ -227,7 +247,7 @@ Item {
     }
 
     function closeWindow(address) {
-        dispatch(`hl.dsp.window.close("address:${address}")`, `closewindow address:${address}`);
+        console.log("DISPATCH CLOSE:", address); dispatch(`hl.dsp.window.close({ window = "address:${address}" })`, `closewindow address:${address}`);
     }
 
     function moveWindow(address, target) {
@@ -249,10 +269,104 @@ Item {
             moveWindow(address, t.slice(3));
     }
 
+    // Estado de navegacion por teclado en los special: se guarda el destino al instante
+    // para no depender del retraso de Hyprland cuando se mantiene la tecla.
+    property string pendingSpecial: ""
+    property bool hasPendingSpecial: false
+    readonly property string navSpecial: hasPendingSpecial ? pendingSpecial : activeSpecial
+
+    Timer {
+        id: pendingSpecialTimer
+        interval: 450
+        onTriggered: root.hasPendingSpecial = false
+    }
+
+    // name vacio = salir de los special y volver a los workspaces normales
+    function goSpecial(name) {
+        const target = name.length > 0 ? name : navSpecial;
+        pendingSpecial = name;
+        hasPendingSpecial = true;
+        pendingSpecialTimer.restart();
+        if (target.length > 0)
+            toggleSpecial(target);
+    }
+
+    function isExtraSpecial(name) {
+        return GlobalStates.extraSpecials.indexOf(name) >= 0;
+    }
+
+    // Quita todos los special extra vacios, salvo el indicado
+    function pruneEmptyExtras(keep) {
+        const list = GlobalStates.extraSpecials.filter(n => n === keep || specialHasWindows(n));
+        if (list.length !== GlobalStates.extraSpecials.length)
+            GlobalStates.extraSpecials = list;
+    }
+
+    function navigateSpecial(dRow, dCol) {
+        const n = specialNames.length;
+        const i = specialNames.indexOf(navSpecial);
+        if (n === 0 || i < 0) {
+            goSpecial("");
+            pruneEmptyExtras("");
+            return;
+        }
+        const cols = specialSlotCols;
+        const rowCount = Math.ceil(n / cols);
+        let r = Math.floor(i / cols);
+        let c = i % cols;
+        if (dRow < 0 && r === 0) {
+            goSpecial("");
+            pruneEmptyExtras("");
+            return;
+        }
+        // Abajo desde la ultima fila sin extras: abre una fila nueva con un solo extra
+        if (dRow > 0 && r === rowCount - 1 && GlobalStates.extraSpecials.length === 0 && !specialsFull) {
+            const name = nextSpecialName();
+            GlobalStates.extraSpecials = [name];
+            goSpecial(name);
+            return;
+        }
+        // Izquierda sobre un extra vacio: lo quita y pasa a la celda anterior (la primera fila fija no se toca)
+        if (dCol < 0 && dRow === 0 && isExtraSpecial(navSpecial) && !specialHasWindows(navSpecial)) {
+            removeExtraSpecial(navSpecial);
+            return;
+        }
+        // Derecha en el ultimo extra con espacio en la fila: crea el siguiente
+        if (dCol > 0 && dRow === 0 && isExtraSpecial(navSpecial) && i === n - 1 && (i + 1) % cols !== 0 && !specialsFull) {
+            if (!hasPendingSpecial) {
+                const name = nextSpecialName();
+                GlobalStates.extraSpecials = [...GlobalStates.extraSpecials, name];
+                goSpecial(name);
+            }
+            return;
+        }
+        if (dCol !== 0) {
+            const inRow = Math.min(cols, n - r * cols);
+            c = (c + dCol + inRow) % inRow;
+        }
+        if (dRow !== 0) {
+            r = (r + dRow + rowCount) % rowCount;
+            c = Math.min(c, Math.min(cols, n - r * cols) - 1);
+        }
+        const target = specialNames[r * cols + c];
+        if (target !== navSpecial)
+            goSpecial(target);
+        if (!isExtraSpecial(target))
+            pruneEmptyExtras(target);
+    }
+
     // Navegacion (la usa Overview.qml)
     function navigate(dRow, dCol) {
+        if (specialEnabled && navSpecial.length > 0) {
+            navigateSpecial(dRow, dCol);
+            return;
+        }
         let r = rowOf(activeId);
         let c = colOf(activeId);
+        if (specialEnabled && dRow > 0 && r === rows - 1 && specialNames.length > 0) {
+            goSpecial(specialNames[Math.min(c, Math.min(specialSlotCols, specialNames.length) - 1)]);
+            return;
+        }
         if (dCol !== 0)
             c = (c + dCol + columns) % columns;
         if (dRow !== 0)
@@ -433,7 +547,7 @@ Item {
                     radius: root.tileRadius
                     label: `${wsId}`
                     numberSize: Math.round(root.wsH * 0.3)
-                    active: wsId === root.activeId
+                    active: wsId === root.activeId && root.navSpecial === ""
                     wallpaper: root.emptyWallpaper
                     dropHover: root.dropTarget === key && root.dragFrom !== key
                     Behavior on y { animation: Appearance.animation.elementMove.numberAnimation.createObject(this) }
@@ -470,7 +584,9 @@ Item {
                     icon: root.specialIcon(modelData)
                     iconSize: Math.max(20, Math.round(root.sTileH * 0.26))
                     numberSize: Math.max(12, Math.round(root.sTileH * 0.2))
-                    active: root.activeSpecial === modelData
+                    active: root.navSpecial === modelData
+                    deletable: GlobalStates.extraSpecials.indexOf(modelData) >= 0 && !root.specialHasWindows(modelData)
+                    onDeleteRequested: root.removeExtraSpecial(modelData)
                     wallpaper: root.specialWallpaper
                     dropHover: root.dropTarget === key && root.dragFrom !== key
                     onClicked: {
@@ -490,6 +606,7 @@ Item {
             // Chip para crear un special nuevo (click) o recibir una ventana arrastrada
             Rectangle {
                 id: newSpecialChip
+                opacity: root.specialsFull ? 0.35 : 1
                 visible: root.specialEnabled
                 readonly property bool hot: chipHover.hovered ? true : root.dropTarget === "new"
                 z: 2
@@ -518,9 +635,9 @@ Item {
                     onClicked: {
                         if (root.dropTarget.length > 0)
                             return;
-                        const name = root.nextSpecialName();
-                        GlobalStates.overviewOpen = false;
-                        root.toggleSpecial(name);
+                        if (root.specialsFull)
+                            return;
+                        GlobalStates.extraSpecials = [...GlobalStates.extraSpecials, root.nextSpecialName()];
                     }
                 }
                 DropArea {
@@ -594,12 +711,14 @@ Item {
             // Marco del workspace activo (se desliza entre workspaces)
             Rectangle {
                 readonly property int slot: root.rowSlots[root.rowOf(root.activeId)] ?? -1
-                visible: slot >= 0 && root.activeId >= root.firstId && root.activeId <= root.lastId
+                readonly property int sIdx: root.specialEnabled && root.navSpecial.length > 0 ? root.specialNames.indexOf(root.navSpecial) : -1
+                readonly property bool onSpecial: sIdx >= 0
+                visible: onSpecial || (slot >= 0 && root.activeId >= root.firstId && root.activeId <= root.lastId)
                 z: 50000
-                x: root.colOf(root.activeId) * (root.wsW + root.gap)
-                y: Math.max(slot, 0) * (root.wsH + root.gap)
-                width: root.wsW
-                height: root.wsH
+                x: onSpecial ? root.sOffsetX + (sIdx % root.specialSlotCols) * (root.sTileW + root.gap) : root.colOf(root.activeId) * (root.wsW + root.gap)
+                y: onSpecial ? root.sTilesTop + Math.floor(sIdx / root.specialSlotCols) * (root.sTileH + root.gap) : Math.max(slot, 0) * (root.wsH + root.gap)
+                width: onSpecial ? root.sTileW : root.wsW
+                height: onSpecial ? root.sTileH : root.wsH
                 radius: root.tileRadius
                 color: "transparent"
                 antialiasing: true
@@ -607,6 +726,8 @@ Item {
                 border.color: Appearance.colors.colPrimary
                 Behavior on x { animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this) }
                 Behavior on y { animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this) }
+                Behavior on width { animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this) }
+                Behavior on height { animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this) }
                 Rectangle {
                     anchors.fill: parent
                     anchors.margins: -3

@@ -8,4 +8,5 @@ Singleton {
     id: root
     property bool overviewOpen: false
     property bool superReleaseMightTrigger: true
+    property var extraSpecials: []
 }
