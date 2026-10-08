@@ -13,7 +13,8 @@
       "sysmon",
       "music",
       "communication",
-      "todo"
+      "todo",
+      "special"
     ],
     "effects": {
       "enableBackdrop": false,

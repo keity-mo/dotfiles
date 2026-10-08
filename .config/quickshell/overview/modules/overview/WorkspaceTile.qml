@@ -90,7 +90,7 @@ Item {
         font.family: root.special ? Appearance.font.family.title : Appearance.font.family.expressive
         font.pixelSize: root.numberSize
         font.weight: Font.DemiBold
-        color: Qt.alpha(Appearance.m3colors.m3onSurface, root.special ? (root.active ? 0.70 : 0.42) : (root.active ? 0.40 : 0.20))
+        color: root.special ? Qt.alpha(Appearance.m3colors.m3onSurface, root.active ? 0.70 : 0.42) : (root.active ? Qt.alpha(Appearance.colors.colPrimary, 0.85) : Qt.alpha(Appearance.m3colors.m3onSurface, 0.30))
         Behavior on color { ColorAnimation { duration: Appearance.animation.elementMoveFast.duration } }
     }
 

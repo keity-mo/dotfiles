@@ -129,7 +129,7 @@ Item {
         return out;
     }
     readonly property int specialSlotCols: Math.max(1, Math.min(Config.options.overview.specialWorkspaceColumns, 8))
-    readonly property int specialTileCount: specialNames.length + 1
+    readonly property int specialTileCount: Math.max(1, specialNames.length)
     readonly property real stripPad: 12
     readonly property real stripHeaderH: 22
     readonly property real stripTop: gridH + gap * 2
@@ -189,7 +189,7 @@ Item {
     }
 
     function specialIcon(name) {
-        const icons = ({ "sysmon": "terminal", "music": "music_note", "communication": "forum", "todo": "checklist" });
+        const icons = ({ "sysmon": "terminal", "music": "music_note", "communication": "forum", "todo": "checklist", "special": "star" });
         const raw = `${name ?? ""}`.trim().toLowerCase();
         return icons[raw] ?? (raw.startsWith("stash") ? "inventory_2" : "");
     }
@@ -432,7 +432,7 @@ Item {
                     height: root.wsH
                     radius: root.tileRadius
                     label: `${wsId}`
-                    numberSize: Math.round(root.wsH * 0.4)
+                    numberSize: Math.round(root.wsH * 0.3)
                     active: wsId === root.activeId
                     wallpaper: root.emptyWallpaper
                     dropHover: root.dropTarget === key && root.dragFrom !== key
@@ -487,32 +487,49 @@ Item {
                 }
             }
 
-            // Tile para crear un special nuevo
-            WorkspaceTile {
+            // Chip para crear un special nuevo (click) o recibir una ventana arrastrada
+            Rectangle {
+                id: newSpecialChip
                 visible: root.specialEnabled
-                z: 1
-                readonly property int slotIndex: root.specialNames.length
-                x: root.sOffsetX + (slotIndex % root.specialSlotCols) * (root.sTileW + root.gap)
-                y: root.sTilesTop + Math.floor(slotIndex / root.specialSlotCols) * (root.sTileH + root.gap)
-                width: root.sTileW
-                height: root.sTileH
-                radius: root.tileRadius
-                special: true
-                icon: "add"
-                iconSize: Math.max(20, Math.round(root.sTileH * 0.3))
-                wallpaper: root.specialWallpaper
-                dropHover: root.dropTarget === "new"
-                onClicked: {
-                    if (root.dropTarget.length > 0)
-                        return;
-                    const name = root.nextSpecialName();
-                    GlobalStates.overviewOpen = false;
-                    root.toggleSpecial(name);
+                readonly property bool hot: chipHover.hovered ? true : root.dropTarget === "new"
+                z: 2
+                width: 26
+                height: 26
+                radius: 13
+                x: root.contentW - root.stripPad - 4 - width
+                y: root.stripTop + root.stripPad + (root.stripHeaderH - height) / 2
+                antialiasing: true
+                color: Qt.alpha(Appearance.colors.colPrimary, hot ? 0.22 : 0.08)
+                border.width: 1
+                border.color: Qt.alpha(Appearance.colors.colPrimary, hot ? 0.6 : 0.24)
+                Behavior on color { ColorAnimation { duration: Appearance.animation.elementMoveFast.duration } }
+                Behavior on border.color { ColorAnimation { duration: Appearance.animation.elementMoveFast.duration } }
+                Text {
+                    anchors.centerIn: parent
+                    text: "add"
+                    font.family: Appearance.font.family.material
+                    font.pixelSize: 16
+                    color: Qt.alpha(Appearance.colors.colPrimary, newSpecialChip.hot ? 1 : 0.75)
                 }
-                onDragEntered: root.dropTarget = "new"
-                onDragExited: {
-                    if (root.dropTarget === "new")
-                        root.dropTarget = "";
+                HoverHandler { id: chipHover }
+                MouseArea {
+                    anchors.fill: parent
+                    acceptedButtons: Qt.LeftButton
+                    onClicked: {
+                        if (root.dropTarget.length > 0)
+                            return;
+                        const name = root.nextSpecialName();
+                        GlobalStates.overviewOpen = false;
+                        root.toggleSpecial(name);
+                    }
+                }
+                DropArea {
+                    anchors.fill: parent
+                    onEntered: root.dropTarget = "new"
+                    onExited: {
+                        if (root.dropTarget === "new")
+                            root.dropTarget = "";
+                    }
                 }
             }
 
@@ -588,8 +605,8 @@ Item {
                 antialiasing: true
                 border.width: 2
                 border.color: Appearance.colors.colPrimary
-                Behavior on x { animation: Appearance.animation.elementMove.numberAnimation.createObject(this) }
-                Behavior on y { animation: Appearance.animation.elementMove.numberAnimation.createObject(this) }
+                Behavior on x { animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this) }
+                Behavior on y { animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this) }
                 Rectangle {
                     anchors.fill: parent
                     anchors.margins: -3
