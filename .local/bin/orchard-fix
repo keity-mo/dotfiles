@@ -1,0 +1,3 @@
+#!/bin/bash
+A=$(ls -t "$HOME"/Applications/*rchard*.AppImage | head -1)
+LD_PRELOAD=/usr/lib/libnssutil3.so:/usr/lib/libnss3.so:/usr/lib/libnspr4.so exec "$A" "$@"

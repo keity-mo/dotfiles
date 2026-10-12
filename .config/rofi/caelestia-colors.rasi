@@ -1,0 +1,11 @@
+* {
+    bg:      #29242d66;
+    field:   #221e25B3;
+    sel:     #41384bCC;
+    fg:      #b0a8b4F2;
+    fgvar:   #b0a8b499;
+    accent:  #d4beea;
+    selfg:   #c8bad3;
+    selborder: #d4beea4D;
+    outline: #4b464f99;
+}

@@ -1,0 +1,162 @@
+@import "caelestia-colors.rasi"
+
+* {
+    font: "Rubik 12";
+    background-color: transparent;
+    text-color: @fg;
+}
+
+window {
+    location: south;
+    anchor: south;
+    y-offset: -14px;
+    width: 630px;
+    background-color: @bg;
+    border: 1px;
+    border-color: @outline;
+    border-radius: 26px;
+    padding: 8px;
+}
+
+mainbox {
+    children: [ listview, inputbar ];
+    spacing: 8px;
+}
+
+listview {
+    lines: 8;
+    columns: 1;
+    dynamic: true;
+    scrollbar: false;
+    spacing: 4px;
+}
+
+element {
+    padding: 10px 14px;
+    border-radius: 18px;
+}
+
+element selected.normal {
+    background-color: @sel;
+}
+
+element-text {
+    vertical-align: 0.5;
+    text-color: inherit;
+}
+
+inputbar {
+    padding: 12px 16px;
+    border-radius: 20px;
+    background-color: @field;
+    spacing: 10px;
+    children: [ prompt, entry ];
+}
+
+prompt {
+    text-color: @accent;
+}
+
+entry {
+    placeholder: "Buscar en el portapapeles...";
+    placeholder-color: @fgvar;
+}
+
+element selected.normal {
+    background-color: @sel;
+    text-color: @selfg;
+}
+
+element {
+    padding: 12px 16px;
+}
+
+element-text {
+    font: "Rubik 13";
+}
+
+entry {
+    font: "Rubik 14";
+}
+
+prompt {
+    font: "Material Symbols Rounded 18";
+    text-color: @accent;
+}
+
+element {
+    border: 1px;
+    border-color: transparent;
+}
+
+element selected.normal {
+    background-color: @sel;
+    text-color: @selfg;
+    border-color: @selborder;
+}
+
+window {
+    padding: 12px;
+}
+
+mainbox {
+    spacing: 12px;
+}
+
+inputbar {
+    padding: 14px 18px;
+    border: 1px;
+    border-color: @outline;
+    border-radius: 22px;
+}
+
+element-icon {
+    size: 3.4em;
+    margin: 0px 14px 0px 0px;
+    border-radius: 10px;
+}
+
+configuration {
+    icon-theme: "Papirus-Dark";
+}
+
+element-icon {
+    size: 2.4em;
+    margin: 0px 12px 0px 0px;
+}
+
+element-icon {
+    size: 2.8em;
+    margin: 0px 14px 0px 0px;
+}
+
+element {
+    padding: 8px 14px;
+}
+
+window {
+    padding: 16px;
+    border: 1px;
+    border-radius: 30px;
+    y-offset: -18px;
+}
+
+mainbox {
+    spacing: 14px;
+}
+
+listview {
+    spacing: 6px;
+}
+
+element {
+    border-radius: 20px;
+}
+
+inputbar {
+    border-radius: 24px;
+}
+
+  listview {
+      lines: 7;
+  }

@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+choice=$(printf '%s\n' \
+  "Caras y emociones" "Gestos y personas" "Animales y naturaleza" \
+  "Comida y bebida" "Viajes y lugares" "Actividades" "Objetos" \
+  "Símbolos emoji" "Banderas" "Kaomoji" "Emoticonos" \
+  "Matemáticas" "Griego" "Flechas" "Monedas" "Puntuación" \
+  "Sub y superíndices" "Formas geométricas" "Dibujo de cajas" \
+  "Música" "Gitmoji" "Todos los emojis" \
+  | fuzzel --dmenu --prompt "Categoría > ") || exit
+
+case "$choice" in
+  "Caras y emociones")   files="emojis_smileys_emotion" ;;
+  "Gestos y personas")   files="emojis_people_body" ;;
+  "Animales y naturaleza") files="emojis_animals_nature" ;;
+  "Comida y bebida")     files="emojis_food_drink" ;;
+  "Viajes y lugares")    files="emojis_travel_places" ;;
+  "Actividades")         files="emojis_activities" ;;
+  "Objetos")             files="emojis_objects" ;;
+  "Símbolos emoji")      files="emojis_symbols" ;;
+  "Banderas")            files="emojis_flags" ;;
+  "Kaomoji")             files="kaomoji" ;;
+  "Emoticonos")          files="emoticons" ;;
+  "Matemáticas")         files="math mathematical_operators supplemental_mathematical_operators miscellaneous_mathematical_symbols-a miscellaneous_mathematical_symbols-b" ;;
+  "Griego")              files="greek_and_coptic" ;;
+  "Flechas")             files="arrows supplemental_arrows-a supplemental_arrows-b" ;;
+  "Monedas")             files="currency_symbols" ;;
+  "Puntuación")          files="general_punctuation supplemental_punctuation" ;;
+  "Sub y superíndices")  files="superscripts_and_subscripts" ;;
+  "Formas geométricas")  files="geometric_shapes geometric_shapes_extended" ;;
+  "Dibujo de cajas")     files="box_drawing block_elements" ;;
+  "Música")              files="musical_symbols" ;;
+  "Gitmoji")             files="gitmoji" ;;
+  "Todos los emojis")    files="emojis_smileys_emotion emojis_people_body emojis_animals_nature emojis_food_drink emojis_travel_places emojis_activities emojis_objects emojis_symbols emojis_flags" ;;
+  *) exit ;;
+esac
+
+rofimoji --selector fuzzel --clipboarder wl-copy --typer wtype \
+  --action type copy --prompt "$choice > " --files $files

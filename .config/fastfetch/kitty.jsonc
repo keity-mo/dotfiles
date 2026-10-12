@@ -1,0 +1,9 @@
+{
+  "logo": {
+    "type": "kitty-direct",
+    "source": "~/.config/fastfetch/sticker.png",
+    "width": 30,
+    "padding": { "top": 0, "left": 2, "right": 3 }
+  },
+  "modules": ["title", "separator", "os", "kernel", "uptime", "packages", "shell", "wm", "terminal", "cpu", "gpu", "memory", "break", "colors"]
+}

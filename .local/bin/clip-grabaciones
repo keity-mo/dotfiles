@@ -1,0 +1,8 @@
+#!/bin/bash
+# Copia al portapapeles cada grabación nueva de ~/Videos/Recordings
+dir="$HOME/Videos/Recordings"
+inotifywait -m -q -e moved_to -e close_write --format '%f' "$dir" | while read -r name; do
+  case "$name" in
+    *.mp4) printf 'file://%s/%s\n' "$dir" "$name" | wl-copy --type text/uri-list ;;
+  esac
+done

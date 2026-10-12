@@ -1,0 +1,33 @@
+#!/bin/bash
+(flatpak run it.mijorus.smile >/dev/null 2>&1 &)
+for i in $(seq 1 50); do
+  hyprctl clients -j | jq -e ".[] | select(.class==\"smile\")" >/dev/null 2>&1 && break
+  sleep 0.1
+done
+sleep 0.5
+old_w=$(wl-paste -n 2>/dev/null)
+old_x=$(xclip -o -selection clipboard 2>/dev/null)
+for i in $(seq 1 600); do
+  sleep 0.1
+  got=""
+  new_x=$(xclip -o -selection clipboard 2>/dev/null)
+  new_w=$(wl-paste -n 2>/dev/null)
+  if [ -n "$new_x" ] && [ "$new_x" != "$old_x" ] && [ "$new_x" != "$old_w" ]; then
+    printf %s "$new_x" | wl-copy
+    got=x
+  elif [ "$new_w" != "$old_w" ]; then
+    got=w
+  fi
+  if [ -n "$got" ]; then
+    echo "$(date +%T) trigger=$got" >> /tmp/smile-paste.log
+    sleep 0.25
+    class=$(hyprctl activewindow -j | jq -r .class)
+    case "$class" in
+      kitty|foot|Alacritty|com.mitchellh.ghostty|org.kde.konsole)
+        wtype -M ctrl -M shift -k v -m shift -m ctrl ;;
+      *)
+        wtype -M ctrl -k v -m ctrl ;;
+    esac
+    exit
+  fi
+done

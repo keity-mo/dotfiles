@@ -1,0 +1,43 @@
+#!/usr/bin/env python3
+import glob, os
+import xml.etree.ElementTree as ET
+
+BASE = os.path.expanduser("~/.local/share/cldr")
+DATA = glob.glob("/usr/lib/python3*/site-packages/picker/data")[0]
+OUT = os.path.expanduser("~/.local/share/emoji-es")
+os.makedirs(OUT, exist_ok=True)
+
+tts, kw = {}, {}
+for sub in ("annotations", "annotationsDerived"):
+    for lang in ("es", "es_419"):
+        p = f"{BASE}/{sub}/{lang}.xml"
+        if not os.path.exists(p):
+            continue
+        for a in ET.parse(p).getroot().iter("annotation"):
+            cp, text = a.get("cp"), (a.text or "")
+            if a.get("type") == "tts":
+                tts[cp] = text
+            else:
+                kw[cp] = text.replace(" | ", ", ")
+
+def look(d, ch):
+    return d.get(ch) or d.get(ch.replace("\ufe0f", ""))
+
+done = 0
+for path in glob.glob(f"{DATA}/*.csv"):
+    name = os.path.basename(path)[:-4]
+    lines = []
+    for line in open(path, encoding="utf-8").read().splitlines():
+        if not line.strip():
+            continue
+        ch, _, rest = line.partition(" ")
+        t = look(tts, ch)
+        if t:
+            k = look(kw, ch) or ""
+            es = f"{t} ({k})" if k else t
+            lines.append(f"{ch} {es} · {rest}")
+        else:
+            lines.append(line)
+    open(f"{OUT}/{name}.txt", "w", encoding="utf-8").write("\n".join(lines) + "\n")
+    done += 1
+print(done, "listas generadas en", OUT)
