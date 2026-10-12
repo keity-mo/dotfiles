@@ -80,6 +80,9 @@ fi
 ensure_wallpaper_enabled
 set_flag ""
 
+# Esperar a que la shell de Caelestia este lista antes de lanzar mpvpaper
+for i in $(seq 1 60); do qs list --all 2>/dev/null | grep -q "caelestia/shell.qml" && break; sleep 0.5; done
+sleep 2
 last="__none__"
 while true; do
   cur=$(basename "$(cat "$STATE" 2>/dev/null)")

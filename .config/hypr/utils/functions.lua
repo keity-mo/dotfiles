@@ -279,6 +279,37 @@ local function toggle(special_workspace)
     end
 end
 
+
+-- Toggle a Kitty terminal inside the existing generic special workspace.
+local function toggle_terminal_special()
+    local active_special = hl.get_active_special_workspace()
+    local kitty_in_special = false
+    local target = "special:sysmon"
+
+    for _, window in ipairs(hl.get_windows() or {}) do
+        if window.class == "kitty" and window.workspace then
+            local ws = window.workspace.name
+            if ws == target then
+                kitty_in_special = true
+                break
+            end
+        end
+    end
+
+    if active_special and active_special.name == target then
+        hl.dispatch(hl.dsp.workspace.toggle_special("sysmon"))
+        return
+    end
+
+    if not active_special or active_special.name ~= target then
+        hl.dispatch(hl.dsp.focus({ workspace = target }))
+    end
+
+    if not kitty_in_special then
+        hl.dispatch(hl.dsp.exec_cmd("kitty", { workspace = target }))
+    end
+end
+
 return {
     resizer              = resizer,
     resize_by_screen     = resize_by_screen,
@@ -286,4 +317,5 @@ return {
     wsaction             = wsaction,
     move_actions         = move_actions,
     toggle               = toggle,
+    toggle_terminal_special = toggle_terminal_special,
 }

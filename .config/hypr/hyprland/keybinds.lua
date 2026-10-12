@@ -68,15 +68,15 @@ create_bind(vars.kbLock, hl.dsp.global("caelestia:lock"))
 
 -- Restore lock
 create_bind(vars.kbRestoreLock, function()
-    hl.dispatch(hl.dsp.exec_cmd("caelestia shell -d"))
+    hl.dispatch(hl.dsp.exec_cmd("env QS_ICON_THEME=Papirus-Dark qs -n -p /home/kei/.config/quickshell/caelestia -d"))
     hl.dispatch(hl.dsp.global("caelestia:lock"))
 end)
 
 -- Kill/restart
-create_bind("CTRL + SUPER + SHIFT + R", hl.dsp.exec_cmd("qs -c caelestia kill"), release)
+create_bind("CTRL + SUPER + SHIFT + R", hl.dsp.exec_cmd("qs kill -p /home/kei/.config/quickshell/caelestia"), release)
 create_bind(
     "CTRL + SUPER + ALT + R",
-    hl.dsp.exec_cmd("qs -c caelestia kill; sleep .1; caelestia shell -d"),
+    hl.dsp.exec_cmd("qs kill -p /home/kei/.config/quickshell/caelestia; sleep 1; env QS_ICON_THEME=Papirus-Dark qs -n -p /home/kei/.config/quickshell/caelestia -d"),
     release
 )
 
@@ -103,6 +103,7 @@ create_bind(vars.kbMoveWinToWsPrev, hl.dsp.window.move({ workspace = "-1" }), re
 -- Move window to/from special workspace
 create_bind(vars.kbMoveWinToWsSpecial, hl.dsp.window.move({ workspace = "special:special" }))
 create_bind(vars.kbMoveWinFromWsSpecial, hl.dsp.window.move({ workspace = "e+0" }))
+create_bind(vars.kbMoveWinToStash, hl.dsp.window.move({ workspace = "special:stash" }))
 
 -- Window groups
 create_bind(vars.kbWindowCycleNext, hl.dsp.window.cycle_next(), repeating)
@@ -155,6 +156,8 @@ create_bind(vars.kbSystemMonitorWs, fn.toggle("sysmon"))
 create_bind(vars.kbMusicWs, fn.toggle("music"))
 create_bind(vars.kbCommunicationWs, fn.toggle("communication"))
 create_bind(vars.kbTodoWs, fn.toggle("todo"))
+create_bind(vars.kbTerminalWs, fn.toggle_terminal_special)
+create_bind(vars.kbStashWs, hl.dsp.workspace.toggle_special("stash"))
 
 -- Apps
 create_bind(vars.kbTerminal, hl.dsp.exec_cmd(vars.terminal))
@@ -205,14 +208,14 @@ create_bind(
 create_bind(vars.kbSleep, hl.dsp.exec_cmd(vars.sleepGestureCmd), locked)
 
 -- Clipboard and emoji picker
-create_bind(vars.kbClipboard, hl.dsp.exec_cmd("pkill fuzzel || caelestia clipboard"))
+create_bind(vars.kbClipboard, hl.dsp.exec_cmd("pkill -x rofi || ~/.local/bin/cliphist-rofi.sh"))
 create_bind(vars.kbClipboardDel, hl.dsp.exec_cmd("pkill fuzzel || caelestia clipboard -d"))
-create_bind(vars.kbEmoji, hl.dsp.exec_cmd("flatpak run it.mijorus.smile"))
+create_bind(vars.kbEmoji, hl.dsp.exec_cmd("/home/kei/.local/bin/smile-paste"))
 create_bind("SUPER + SHIFT + Period", hl.dsp.exec_cmd("pkill fuzzel || ~/.local/bin/emoji-picker"))
 create_bind("SUPER + SHIFT + Period", hl.dsp.exec_cmd("pkill fuzzel || ~/.local/bin/emoji-picker"))
 create_bind(
     vars.kbClipboardPasteLatest,
-    hl.dsp.exec_cmd('sleep 0.5s && ydotool type -d 1 "$(cliphist list | head -1 | cliphist decode)"'),
+    hl.dsp.exec_cmd('sleep 0.5s && wtype -d 1 "$(cliphist list | head -1 | cliphist decode)"'),
     locked
 )
 
@@ -227,3 +230,6 @@ create_bind(
 )
 
 hl.bind("SUPER + TAB", hl.dsp.exec_cmd("qs ipc -p /home/kei/.config/quickshell/overview call overview toggle"))
+
+-- Cerrar el selector de rofi al hacer clic fuera
+hl.bind("mouse:272", hl.dsp.exec_cmd("~/.local/bin/rofi-click-outside.sh"), { non_consuming = true })

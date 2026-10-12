@@ -21,11 +21,11 @@ return {
 
     -- Blur
     blurEnabled                = true,
-    blurSpecialWs              = false,
+    blurSpecialWs              = true,
     blurPopups                 = true,
     blurInputMethods           = true,
-    blurSize                   = 10,
-    blurPasses                 = 2,
+    blurSize = 6,
+    blurPasses = 3,
     blurXray                   = false,
 
     -- Shadow

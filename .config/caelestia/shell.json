@@ -88,9 +88,18 @@
       ]
     }
   },
+  "launcher": {
+    "favouriteApps": [
+      "org.gnome.Nautilus",
+      "org.gnome.baobab"
+    ]
+  },
   "notifs": {
     "fullscreen": "On",
     "openExpanded": false
+  },
+  "paths": {
+    "sessionGif": "/home/kei/.config/caelestia/session.gif"
   },
   "services": {
     "audioIncrement": 0.1,
@@ -104,7 +113,12 @@
       "nowPlaying": false
     }
   },
-  "paths": {
-    "sessionGif": "/home/kei/.config/caelestia/session.gif"
+  "session": {
+    "commands": {
+      "logout": [
+        "uwsm",
+        "stop"
+      ]
+    }
   }
 }

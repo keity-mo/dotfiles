@@ -13,9 +13,9 @@ hl.config({
             new_optimizations = true,
             popups            = vars.blurPopups,
             input_methods     = vars.blurInputMethods,
-            size              = vars.blurSize,
-            passes            = vars.blurPasses,
-            brightness = 0.75,
+            size = 6,
+            passes = 2,
+            brightness = 0.65,
         },
 
         shadow = {
@@ -26,3 +26,5 @@ hl.config({
         },
     },
 })
+
+hl.config({ decoration = { active_opacity = 0.92, inactive_opacity = 0.85 } })

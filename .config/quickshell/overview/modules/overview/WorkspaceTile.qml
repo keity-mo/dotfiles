@@ -24,6 +24,8 @@ Item {
     signal deleteRequested()
 
     readonly property color baseColor: special ? Appearance.m3colors.m3surfaceContainerHigh : Appearance.m3colors.m3surfaceContainer
+    readonly property color litColor: Qt.tint(baseColor, Qt.alpha(Appearance.m3colors.m3onSurface, 0.12))
+    readonly property real fillAlpha: Math.min(1, Appearance.tileAlpha + 0.06)
 
     Rectangle {
         id: fill
@@ -31,9 +33,9 @@ Item {
         radius: root.radius
         antialiasing: true
         color: root.dropHover ? Qt.alpha(Appearance.colors.colPrimary, 0.28)
-             : root.active ? Qt.tint(Qt.alpha(root.baseColor, Appearance.tileAlpha), Qt.alpha(Appearance.colors.colPrimary, 0.16))
+             : root.active ? Qt.tint(Qt.alpha(root.litColor, root.fillAlpha), Qt.alpha(Appearance.colors.colPrimary, 0.16))
              : root.icon === "add" ? Qt.alpha(root.baseColor, root.hovered ? 0.48 : 0.22)
-             : Qt.alpha(root.baseColor, Appearance.tileAlpha)
+             : Qt.alpha(root.litColor, root.fillAlpha)
         Behavior on color { ColorAnimation { duration: Appearance.animation.elementMoveFast.duration } }
     }
 
@@ -126,8 +128,8 @@ Item {
         radius: root.radius
         color: "transparent"
         antialiasing: true
-        border.width: root.dropHover || root.active ? 2 : 1
-        border.color: root.dropHover || root.active ? Appearance.colors.colPrimary
+        border.width: root.dropHover ? 2 : 1
+        border.color: root.dropHover ? Appearance.colors.colPrimary
                     : root.icon === "add" ? Qt.alpha(Appearance.colors.colPrimary, root.hovered ? 0.55 : 0.22)
                     : root.hovered ? Qt.alpha(Appearance.m3colors.m3outline, 0.65)
                     : Qt.alpha(Appearance.m3colors.m3outlineVariant, root.special ? 0.8 : 0.5)

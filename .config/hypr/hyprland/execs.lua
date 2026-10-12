@@ -2,13 +2,14 @@ local vars = require("variables")
 local fn   = require("utils.functions")
 
 hl.on("hyprland.start", function()
+    hl.exec_cmd("/home/kei/.local/bin/boot-wallpaper.sh")
     -- Keyring and auth
     hl.exec_cmd("gnome-keyring-daemon --start --components=secrets")
     hl.exec_cmd("/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
 
     -- Clipboard history
-    hl.exec_cmd("wl-paste --type text --watch cliphist store")
-    hl.exec_cmd("wl-paste --type image --watch cliphist store")
+    hl.exec_cmd("wl-paste --type text --watch cliphist -max-items 200 store")
+    hl.exec_cmd("wl-paste --type image --watch cliphist -max-items 200 store")
 
     -- Auto delete trash 30 days old
     hl.exec_cmd("trash-empty 30")
@@ -26,10 +27,9 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("mpris-proxy")
 
     -- Start shell
-    hl.exec_cmd("caelestia shell -d")
+    hl.exec_cmd('sh -c "env QS_ICON_THEME=Papirus-Dark qs -n -p /home/kei/.config/quickshell/caelestia -d"')
     hl.exec_cmd("/home/kei/.local/bin/live-wallpaper.sh")
-    hl.exec_cmd('sh -c "sleep 6; caelestia shell -k; caelestia shell -d"')
-    hl.exec_cmd('sh -c "sleep 8; qs -p /home/kei/.config/quickshell/overview -d"')
+    hl.exec_cmd('sh -c "sleep 12; env QS_ICON_THEME=Papirus-Dark qs -p /home/kei/.config/quickshell/overview -d"')
 end)
 
 -- Resizer listeners

@@ -89,7 +89,7 @@ Item {
     visible: placed && (isFullscreen || !hiddenByFullscreen)
     width: Math.max(1, Math.round(Math.min(targetW, availableWidth)))
     height: Math.max(1, Math.round(Math.min(targetH, availableHeight)))
-    z: dragInProgress ? 100000 : baseZ
+    z: dragInProgress ? 100000 : (hovered ? 99999 : baseZ)
     clip: true
     opacity: dragInProgress ? 0.92 : (onWidgetMonitor ? 1 : Config.options.windowPreview.inactiveMonitorOpacity)
     scale: dragInProgress ? 1.05 : pressed ? 0.97 : hovered ? 1.02 : 1
@@ -221,7 +221,7 @@ Item {
         acceptedButtons: Qt.LeftButton | Qt.MiddleButton
         cursorShape: root.dragInProgress ? Qt.ClosedHandCursor : Qt.PointingHandCursor
         drag.threshold: 8
-        onPressed: mouse => {
+        onPressed: mouse => { console.log("DRAG PRESSED:", root.windowAddress, mouse.x, mouse.y);
             drag.target = mouse.button === Qt.LeftButton ? root : null;
             root.pressed = true;
             root.Drag.source = root;
@@ -251,6 +251,7 @@ Item {
 
     Rectangle {
         id: closeButton
+        z: 1000
         readonly property bool shown: root.hovered && root.width >= 56 && root.height >= 40
         anchors.top: parent.top
         anchors.right: parent.right
@@ -277,10 +278,12 @@ Item {
         }
         MouseArea {
             id: closeArea
+            z: 1000
+            preventStealing: true
             anchors.fill: parent
             hoverEnabled: true
             acceptedButtons: Qt.LeftButton
-            onClicked: root.closeRequested()
+            onClicked: { console.log("CLOSE AREA CLICK:", root.windowAddress); console.log("CLOSE:", root.windowData?.title ?? "unknown", "WINDOWADDRESS:", root.windowAddress, "WINDOWDATA:", root.windowData?.address ?? "none", "TOPLEVEL:", root.toplevel?.address ?? "none"); root.closeRequested(); }
         }
     }
 
